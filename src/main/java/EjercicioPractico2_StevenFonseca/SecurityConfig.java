@@ -12,26 +12,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
+        http
+            .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/usuarios/**", "/roles/**").hasRole("ADMIN")
                 .requestMatchers("/reportes/**").hasRole("PROFESOR")
                 .requestMatchers("/perfil/**").hasRole("ESTUDIANTE")
-                .requestMatchers("/login", "/logout", "/", "/css/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
-        );
 
-        http.formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true")
+                .requestMatchers("/login", "/logout", "/", "/css/**", "/js/**").permitAll()
+
+                .anyRequest().authenticated()
+            )
+
+            .formLogin(form -> form
+                .loginPage("/login")               
+                .defaultSuccessUrl("/perfil", true) 
+                .failureUrl("/login?error=true")   
                 .permitAll()
-        ).logout(logout -> logout
+            )
+
+            .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
-        ).exceptionHandling(ex -> ex
+            )
+
+            .exceptionHandling(ex -> ex
                 .accessDeniedPage("/acceso_denegado")
-        );
+            );
 
         return http.build();
     }

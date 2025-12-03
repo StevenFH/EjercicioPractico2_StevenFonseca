@@ -1,15 +1,38 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="~{general/fragmentos :: head}"/>
+<body>
+<header th:replace="~{general/fragmentos :: header}"/>
+
+<section class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h4><i class="fas fa-user"></i> [[#{plantilla.perfil}]]</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4 text-center">
+                    <img th:src="@{${usuario.rutaImagen}}" alt="Foto de perfil" class="rounded-circle" height="150"/>
+                </div>
+                <div class="col-md-8">
+                    <p><strong>[[#{usuario.nombre}]]:</strong> <span th:text="${usuario.nombre}"></span></p>
+                    <p><strong>[[#{usuario.apellidos}]]:</strong> <span th:text="${usuario.apellido}"></span></p>
+                    <p><strong>[[#{usuario.correo}]]:</strong> <span th:text="${usuario.email}"></span></p>
+                    <p><strong>[[#{role.rol}]]:</strong> <span th:text="${usuario.rol.nombre}"></span></p>
+                    <p><strong>[[#{usuario.activo}]]:</strong> 
+                        <span th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
+                    </p>
+                    <p><strong>Fecha de creación:</strong> <span th:text="${usuario.fechaCreacion}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:replace="~{general/fragmentos :: mostrarToast}"/>
+<footer th:replace="~{general/fragmentos :: footer}"/>
+</body>
 </html>
